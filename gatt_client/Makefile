@@ -3,9 +3,8 @@
 # project subdirectory.
 #
 
-PROJECT_NAME := FPMemory_BLE
+PROJECT_NAME := gatt_client_demo
 
 COMPONENT_ADD_INCLUDEDIRS := components/include
 
 include $(IDF_PATH)/make/project.mk
-
