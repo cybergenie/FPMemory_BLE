@@ -1,10 +1,6 @@
-ESP-IDF Gatt Client Demo
-========================
+ESP-IDF Gatt Server Service Table Demo
+===============================================
 
-This is the demo for users to use ESP_APIs to create a GATT Client.
+This demo shows how to create a GATT service with an attribute table defined in one place. Provided API releases the user from adding attributes one by one as implemented in BLUEDROID. A demo of the other method to create the attribute table is presented in [gatt_server_demo](../gatt_server).
 
-To test this demo, you can run the [gatt_server_demo](../gatt_server), which creates services and starts advertising. `Gatt_client_demo` will start scanning and connect to the `gatt_server_demo` automatically.
-
-This demo will enable gatt server's notification function once the connection is established and then the devices start exchanging data.
-
-Please check the [tutorial](tutorial/Gatt_Client_Example_Walkthrough.md) for more information about this example.
+Please check the [tutorial](tutorial/Gatt_Server_Service_Table_Example_Walkthrough.md) for more information about this example.

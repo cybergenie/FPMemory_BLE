@@ -4,13 +4,18 @@
             "name": "Linux",
             "cStandard": "c11",
             "cppStandard": "c++17",
-            "includePath": ["${config:idf.espIdfPath}/components/**"],
+            "includePath": [
+                "${workspaceFolder}/**",
+                "${config:idf.espIdfPath}/components/**"
+            ],
             "browse": {
                 "path": [
+                    "${workspaceFolder}",
                     "${config:idf.espIdfPath}/components"
-                ],
-                "limitSymbolsToIncludedHeaders": false   
-            }
+                ]               
+                
+            } ,            
+            "compileCommands": "${workspaceFolder}/build/compile_commands.json"          
         }
     ],
     "version": 4

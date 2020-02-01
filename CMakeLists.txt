@@ -4,4 +4,4 @@ cmake_minimum_required(VERSION 3.5)
 
 set(SUPPORTED_TARGETS esp32)
 include($ENV{IDF_PATH}/tools/cmake/project.cmake)
-project(gatt_client_demo)
+project(gatt_server_service_table_demo)

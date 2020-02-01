@@ -1,7 +1,38 @@
-menu "Example Configuration"
+menu "FPMemory_BLE Configuration"
 
-    config EXAMPLE_DUMP_ADV_DATA_AND_SCAN_RESP
-        bool "Dump whole adv data and scan response data in example"
-        default n
+    menu "I2C Master"
+        config I2C_MASTER_SCL
+            int "SCL GPIO Num"
+            default 19
+            help
+                GPIO number for I2C Master clock line.
+
+        config I2C_MASTER_SDA
+            int "SDA GPIO Num"
+            default 18
+            help
+                GPIO number for I2C Master data line.
+
+        config I2C_MASTER_PORT_NUM
+            int "Port Number"
+            default 1
+            help
+                Port number for I2C Master device.
+
+        config I2C_MASTER_FREQUENCY
+            int "Master Frequency"
+            default 100000
+            help
+                I2C Speed of Master device.
+    endmenu
+
+    menu "I2C Sensor"       
+        
+        config I2C_IMU_ADDRESS
+            hex "IMU Slave Address"
+            default 0x50
+            help
+                Hardware Address of IMU I2CPort.
+    endmenu    
 
 endmenu

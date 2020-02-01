@@ -115,10 +115,24 @@ CONFIG_PARTITION_TABLE_MD5=y
 # end of Partition Table
 
 #
-# Example Configuration
+# FPMemory_BLE Configuration
 #
-# CONFIG_EXAMPLE_DUMP_ADV_DATA_AND_SCAN_RESP is not set
-# end of Example Configuration
+
+#
+# I2C Master
+#
+CONFIG_I2C_MASTER_SCL=19
+CONFIG_I2C_MASTER_SDA=18
+CONFIG_I2C_MASTER_PORT_NUM=1
+CONFIG_I2C_MASTER_FREQUENCY=100000
+# end of I2C Master
+
+#
+# I2C Sensor
+#
+CONFIG_I2C_IMU_ADDRESS=0x50
+# end of I2C Sensor
+# end of FPMemory_BLE Configuration
 
 #
 # Compiler options

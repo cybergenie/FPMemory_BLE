@@ -7,5 +7,16 @@
     "[c]": {
         "editor.quickSuggestions": true
     },
-    "C_Cpp.intelliSenseEngineFallback": "Disabled"
+    "C_Cpp.intelliSenseEngineFallback": "Disabled",
+    "files.associations": {
+        "*.cjson": "jsonc",
+        "*.wxss": "css",
+        "*.wxs": "javascript",
+        "esp_bt_main.h": "c",
+        "string.h": "c",
+        "freertos.h": "c",
+        "esp_gattc_api.h": "c",
+        "nvs.h": "c",
+        "esp_gatt_defs.h": "c"
+    }
 } 
