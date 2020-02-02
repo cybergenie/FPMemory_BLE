@@ -199,7 +199,7 @@ static xQueueHandle cmd_cmd_queue = NULL;
 #ifdef SUPPORT_IMU
 //static xQueueHandle cmd_heartbeat_queue = NULL;
 //static uint8_t heartbeat_s[9] = {'E', 's', 'p', 'r', 'e', 's', 's', 'i', 'f'};
-static bool enable_heart_ntf = false;
+static bool enable_imu_ntf = false;
 //static uint8_t heartbeat_count_num = 0;
 #endif
 
@@ -541,7 +541,7 @@ static void gatts_profile_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_
                     break;
                 }
                 memset(spp_cmd_buff, 0x0, (i2c_mtu_size - 3));
-                memcpy(spp_cmd_buff, param->write.value, param->write.len);                
+                memcpy(spp_cmd_buff, param->write.value, param->write.len);
                 xQueueSend(cmd_cmd_queue, &spp_cmd_buff, 10 / portTICK_PERIOD_MS);
             }
             else if (res == I2C_DATA_NTF_CFG)
@@ -565,12 +565,12 @@ static void gatts_profile_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_
                 if ((param->write.len == 2) && (param->write.value[0] == 0x01) && (param->write.value[1] == 0x00))
                 {
                     //开启监听
-                    enable_heart_ntf = true;
+                    enable_imu_ntf = true;
                 }
                 else if ((param->write.len == 2) && (param->write.value[0] == 0x00) && (param->write.value[1] == 0x00))
                 {
                     //关闭监听
-                    enable_heart_ntf = false;
+                    enable_imu_ntf = false;
                 }
             }
 #endif
@@ -629,6 +629,9 @@ static void gatts_profile_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_
         ESP_LOGI(GATTS_TABLE_TAG, "ESP_GATTS_DISCONNECT_EVT, reason = 0x%x", param->disconnect.reason);
         is_connected = false;
         enable_data_ntf = false;
+#ifdef SUPPORT_IMU
+        enable_imu_ntf = false;
+#endif
         esp_ble_gap_start_advertising(&adv_params);
         break;
     case ESP_GATTS_CREAT_ATTR_TAB_EVT:
@@ -721,8 +724,7 @@ static esp_err_t i2c_master_read_slave(i2c_port_t i2c_num, uint8_t *data_rd, siz
         i2c_master_read(cmd, data_rd, size - 1, ACK_VAL);
     }
     i2c_master_read_byte(cmd, data_rd + size - 1, NACK_VAL);
-    //i2c_master_read_byte(cmd, data_rd, ACK_VAL);
-    //i2c_master_read_byte(cmd, data_rd+1, NACK_VAL);
+    
     i2c_master_stop(cmd);
     ret = i2c_master_cmd_begin(i2c_num, cmd, 1000 / portTICK_RATE_MS);
     i2c_cmd_link_delete(cmd);
@@ -769,6 +771,9 @@ static void i2c_task(void *arg)
             printf("*******************\n");
             printf("TASK[%d]  MASTER READ FROM SLAVE\n", task_idx);
             disp_buf(data_rd, d_size);
+
+            //printf("i2c_conn_id: x%", i2c_gatts_if);
+            esp_ble_gatts_send_indicate(i2c_gatts_if, i2c_conn_id, i2c_handle_table[I2C_DATA_NTY_VAL],sizeof(data_rd), data_rd, false);
         }
         else
         {
