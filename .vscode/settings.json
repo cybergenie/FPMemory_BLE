@@ -17,6 +17,7 @@
         "freertos.h": "c",
         "esp_gattc_api.h": "c",
         "nvs.h": "c",
-        "esp_gatt_defs.h": "c"
+        "esp_gatt_defs.h": "c",
+        "*.ipp": "c"
     }
 } 
