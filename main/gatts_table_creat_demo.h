@@ -22,7 +22,7 @@
 #define I2C_MASTER_TX_BUF_DISABLE 0                           /*!< I2C master doesn't need buffer */
 #define I2C_MASTER_RX_BUF_DISABLE 0                           /*!< I2C master doesn't need buffer */
 
-#define DATA_LENGTH 8                    /*!< Data buffer length of test buffer */
+#define DATA_LENGTH 74                   /*!< Data buffer length of test buffer */
 #define DELAY_TIME_BETWEEN_ITEMS_MS 1000 /*!< delay time between different test items */
 
 #define CMD_START 0x51

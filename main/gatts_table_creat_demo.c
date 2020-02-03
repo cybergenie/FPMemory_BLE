@@ -716,7 +716,7 @@ static esp_err_t i2c_master_read_slave(i2c_port_t i2c_num, uint8_t *data_rd, siz
     //----------------
     i2c_master_start(cmd);
     i2c_master_write_byte(cmd, ESP_SLAVE_ADDR << 1 | WRITE_BIT, ACK_CHECK_EN);
-    i2c_master_write_byte(cmd, CMD_START, ACK_CHECK_EN);
+    i2c_master_write_byte(cmd, 0x30, ACK_CHECK_EN);
     i2c_master_start(cmd);
     i2c_master_write_byte(cmd, (ESP_SLAVE_ADDR << 1) | READ_BIT, ACK_CHECK_EN);
     if (size > 1)
