@@ -1,0 +1,16 @@
+1, 3, 4, 20	AGND	Analog Ground. Ground reference point for all circuitry on the AD7997/AD7998. All analog input signals should be referred to this AGND voltage.																	
+2, 5	VDD	Power Supply Input. The VDD range for the AD7997/AD7998 is from 2.7 V to 5.5 V.																	
+6	REFIN	Voltage Reference Input. The external reference for the AD7997/AD7998 should be applied to this input pin. The voltage range for the external reference is 1.2 V to VDD. A 0.1 µF and 1 µF capacitors should be placed between REFIN and AGND. See Typical Connection Diagram.																	
+7	VIN1	Analog Input 1. Single-ended analog input channel. The input range is 0 V to REFIN.																	
+8	VIN3	Analog Input 3. Single-ended analog input channel. The input range is 0 V to REFIN.																	
+9	VIN5	Analog Input 5. Single-ended analog input channel. The input range is 0 V to REFIN.																	
+10	VIN7	Analog Input 7. Single-ended analog input channel. The input range is 0 V to REFIN.																	
+11	VIN8	Analog Input 8. Single-ended analog input channel. The input range is 0 V to REFIN.																	
+12	VIN6	Analog Input 6. Single-ended analog input channel. The input range is 0 V to REFIN.																	
+13	VIN4	Analog Input 4. Single-ended analog input channel. The input range is 0 V to REFIN.																	
+14	VIN2	Analog Input 2. Single-ended analog input channel. The input range is 0 V to REFIN.																	
+15	AS	Logic Input. Address select input that selects one of three I 2 C addresses for the AD7997/AD7998, as shown in Table 6. The device address depends on the voltage applied to this pin.																	
+16	CONVST	Logic Input Signal. Convert start signal. This is an edge-triggered logic input. The rising edge of this signal powers up the part. The power-up time for the part is 1 µs. The falling edge of CONVST places the track/hold into hold mode and initiates a conversion. A power-up time of at least 1 µs must be allowed for the CONVST high pulse; otherwise, the conversion result is invalid (see the Modes of Operation section).																	
+17	ALERT/BUSY	Digital Output. Selectable as an ALERT or BUSY output function. When configured as an ALERT, this pin acts as an outof-range indicator and, if enabled, becomes active when the conversion result violates the DATAHIGH or DATALOW register values. See the Limit Registers section. When configured as a BUSY output, this pin becomes active when a conversion is in progress. Open-drain output.																	
+18	SDA	Digital I/O. Serial bus bidirectional data. Open-drain output. External pull-up resistor required.																	
+19	SCL	Digital Input. Serial bus clock. Open-drain input. External pull-up resistor required.																	
