@@ -20,6 +20,7 @@
 #include "freertos/task.h"
 #include "freertos/event_groups.h"
 #include "driver/i2c.h"
+#include "jy901.h"
 #include "esp_system.h"
 #include "esp_log.h"
 #include "nvs_flash.h"
@@ -28,7 +29,7 @@
 #include "esp_gap_ble_api.h"
 #include "esp_gatts_api.h"
 #include "esp_bt_main.h"
-#include "gatts_table_creat_demo.h"
+#include "app_main.h"
 #include "esp_gatt_common_api.h"
 
 #define GATTS_TABLE_TAG "GATTS_TABLE"
@@ -705,31 +706,31 @@ static void gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_
 
 //********************I2C*****************************
 
-static esp_err_t i2c_master_read_slave(i2c_port_t i2c_num, uint8_t *data_rd, size_t size)
-{
-    int ret;
-    if (size == 0)
-    {
-        return ESP_OK;
-    }
-    i2c_cmd_handle_t cmd = i2c_cmd_link_create();
-    //----------------
-    i2c_master_start(cmd);
-    i2c_master_write_byte(cmd, ESP_SLAVE_ADDR << 1 | WRITE_BIT, ACK_CHECK_EN);
-    i2c_master_write_byte(cmd, 0x30, ACK_CHECK_EN);
-    i2c_master_start(cmd);
-    i2c_master_write_byte(cmd, (ESP_SLAVE_ADDR << 1) | READ_BIT, ACK_CHECK_EN);
-    if (size > 1)
-    {
-        i2c_master_read(cmd, data_rd, size - 1, ACK_VAL);
-    }
-    i2c_master_read_byte(cmd, data_rd + size - 1, NACK_VAL);
+// static esp_err_t i2c_master_read_slave(i2c_port_t i2c_num, uint8_t *data_rd, size_t size)
+// {
+//     int ret;
+//     if (size == 0)
+//     {
+//         return ESP_OK;
+//     }
+//     i2c_cmd_handle_t cmd = i2c_cmd_link_create();
+//     //----------------
+//     i2c_master_start(cmd);
+//     i2c_master_write_byte(cmd, ESP_SLAVE_ADDR << 1 | WRITE_BIT, ACK_CHECK_EN);
+//     i2c_master_write_byte(cmd, 0x30, ACK_CHECK_EN);
+//     i2c_master_start(cmd);
+//     i2c_master_write_byte(cmd, (ESP_SLAVE_ADDR << 1) | READ_BIT, ACK_CHECK_EN);
+//     if (size > 1)
+//     {
+//         i2c_master_read(cmd, data_rd, size - 1, ACK_VAL);
+//     }
+//     i2c_master_read_byte(cmd, data_rd + size - 1, NACK_VAL);
     
-    i2c_master_stop(cmd);
-    ret = i2c_master_cmd_begin(i2c_num, cmd, 1000 / portTICK_RATE_MS);
-    i2c_cmd_link_delete(cmd);
-    return ret;
-}
+//     i2c_master_stop(cmd);
+//     ret = i2c_master_cmd_begin(i2c_num, cmd, 1000 / portTICK_RATE_MS);
+//     i2c_cmd_link_delete(cmd);
+//     return ret;
+// }
 
 static void disp_buf(uint8_t *buf, int len)
 {
@@ -759,7 +760,7 @@ static void i2c_task(void *arg)
 
         xSemaphoreTake(print_mux, portMAX_DELAY);
 
-        ret = i2c_master_read_slave(I2C_MASTER_NUM, data_rd, sizeof(data_rd));
+        ret = i2c_master_read_imu(I2C_MASTER_NUM, data_rd, sizeof(data_rd));
         size_t d_size = sizeof(data_rd);
 
         if (ret == ESP_ERR_TIMEOUT)

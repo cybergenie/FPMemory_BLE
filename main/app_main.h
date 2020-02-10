@@ -25,15 +25,15 @@
 #define DATA_LENGTH 74                   /*!< Data buffer length of test buffer */
 #define DELAY_TIME_BETWEEN_ITEMS_MS 1000 /*!< delay time between different test items */
 
-#define CMD_START 0x51
+// #define CMD_START 0x51
 
-#define ESP_SLAVE_ADDR CONFIG_I2C_IMU_ADDRESS /*!< ESP32 slave address, you can set any 7bit value */
-#define WRITE_BIT I2C_MASTER_WRITE            /*!< I2C master write */
-#define READ_BIT I2C_MASTER_READ              /*!< I2C master read */
-#define ACK_CHECK_EN 0x1                      /*!< I2C master will check ack from slave*/
-#define ACK_CHECK_DIS 0x0                     /*!< I2C master will not check ack from slave */
-#define ACK_VAL 0x0                           /*!< I2C ack value */
-#define NACK_VAL 0x1
+// #define ESP_SLAVE_ADDR CONFIG_I2C_IMU_ADDRESS /*!< ESP32 slave address, you can set any 7bit value */
+// #define WRITE_BIT I2C_MASTER_WRITE            /*!< I2C master write */
+// #define READ_BIT I2C_MASTER_READ              /*!< I2C master read */
+// #define ACK_CHECK_EN 0x1                      /*!< I2C master will check ack from slave*/
+// #define ACK_CHECK_DIS 0x0                     /*!< I2C master will not check ack from slave */
+// #define ACK_VAL 0x0                           /*!< I2C ack value */
+// #define NACK_VAL 0x1
 
 /*
  * DEFINES
