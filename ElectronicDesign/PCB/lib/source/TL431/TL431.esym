@@ -1,10 +1,10 @@
 <Part 
- name="TPS70933"
+ name="TL431"
  aliasName=""
  Library="D:\Project\FPMemory_BLE\ElectronicDesign\PCB\lib\source"
  LP_Library="D:\Project\FPMemory_BLE\ElectronicDesign\PCB\lib\source"
- LP_Name="SOT23-5N"
- pdfFilePath="E:\Project\FPMemory\DOC\tps709.pdf"
+ LP_Name="SOT23"
+ pdfFilePath="D:\Project\DOC\tl431.pdf"
  styleName="OrCAD_Capture"
  pptName=""
 >
@@ -25,20 +25,20 @@
 
 <View 
  name="1"
- aliasName="TPS70933"
+ aliasName="TL431"
  assignedName=""
  partType="0"
  viewType="1"
- bBox="((-300:0)(900:-600))"
- cBox="((0:-600)(600:0))"
+ bBox="((-300:-500)(900:0))"
+ cBox="((0:-500)(600:0))"
  rotation="0"
  origin="(0:0)"
  width="600"
- height="600"
+ height="500"
 >
 
 <Rectangle 
- bBox="((0:-600)(600:0))"
+ bBox="((0:-500)(600:0))"
  color="3"
  fill="0"
  pattern="0"
@@ -55,10 +55,10 @@
  portName=""
  busName=""
  signalName=""
- pinName="EN"
+ pinName="CATHODE"
  aliasName=""
  annotatedName=""
- pinText="EN"
+ pinText="Shunt Current/Voltage input"
  signalType="0"
  pinType="1"
  bitNumber="0"
@@ -66,13 +66,13 @@
  lsb="0"
  padType="0"
  padName=""
- pinNumber="3"
+ pinNumber="1"
  pinNumberSwaps=""
- hotSpot="(-300:-400)"
- origin="(0:-400)"
+ hotSpot="(-300:-100)"
+ origin="(0:-100)"
  rotation="0"
  matrix="(0:0)"
- direction="0"
+ direction="4"
  function="0"
  mechanicalElectrical="0"
  gate=""
@@ -82,8 +82,8 @@
  annotate=""
  symbol="1"
  side="3"
- position="4"
- sequence="0"
+ position="1"
+ sequence="1"
  bank=""
  standard=""
  voltage=""
@@ -107,7 +107,7 @@
 <Points 
  xyType="0"
  angle="0"
- xy="(0:-400)"
+ xy="(0:-100)"
 >
 
 </Points>
@@ -115,7 +115,7 @@
 <Points 
  xyType="0"
  angle="0"
- xy="(-300:-400)"
+ xy="(-300:-100)"
 >
 
 </Points>
@@ -123,10 +123,10 @@
 </Path>
 
 <Label 
- label="EN"
+ label="CATHODE"
  aliasLabel=""
- bBox="((0:-426)(72:-374))"
- origin="(0:-400)"
+ bBox="((0:-126)(254:-74))"
+ origin="(0:-100)"
  justify="3"
  rotation="0"
  height="52"
@@ -142,9 +142,9 @@
 <Property 
  name="#"
  aliasName=""
- value="3"
+ value="1"
  bBox="((0:0)(0:0))"
- origin="(-60:-375)"
+ origin="(-60:-75)"
  justify="2"
  rotation="0"
  height="52"
@@ -168,10 +168,10 @@
  portName=""
  busName=""
  signalName=""
- pinName="GND"
+ pinName="REF"
  aliasName=""
  annotatedName=""
- pinText="GND"
+ pinText="Threshold relative to common anode"
  signalType="0"
  pinType="1"
  bitNumber="0"
@@ -185,7 +185,7 @@
  origin="(0:-300)"
  rotation="0"
  matrix="(0:0)"
- direction="5"
+ direction="1"
  function="0"
  mechanicalElectrical="0"
  gate=""
@@ -196,7 +196,7 @@
  symbol="1"
  side="3"
  position="3"
- sequence="1"
+ sequence="2"
  bank=""
  standard=""
  voltage=""
@@ -236,7 +236,7 @@
 </Path>
 
 <Label 
- label="GND"
+ label="REF"
  aliasLabel=""
  bBox="((0:-326)(109:-274))"
  origin="(0:-300)"
@@ -281,10 +281,10 @@
  portName=""
  busName=""
  signalName=""
- pinName="IN"
+ pinName="ANODE"
  aliasName=""
  annotatedName=""
- pinText="IN"
+ pinText="Common pin, normally connected to"
  signalType="0"
  pinType="1"
  bitNumber="0"
@@ -292,239 +292,13 @@
  lsb="0"
  padType="0"
  padName=""
- pinNumber="1"
- pinNumberSwaps=""
- hotSpot="(-300:-200)"
- origin="(0:-200)"
- rotation="0"
- matrix="(0:0)"
- direction="4"
- function="0"
- mechanicalElectrical="0"
- gate=""
- gateSwap=""
- pinSwap=""
- terminate=""
- annotate=""
- symbol="1"
- side="3"
- position="2"
- sequence="2"
- bank=""
- standard=""
- voltage=""
- group=""
- scratch1=""
- scratch2=""
- scratch3=""
- scratch4=""
- scratch5=""
->
-
-<Path 
- bBox="((0:0)(0:0))"
- layer="0"
- color="10"
- fill="0"
- pattern="0"
- width="0"
->
-
-<Points 
- xyType="0"
- angle="0"
- xy="(0:-200)"
->
-
-</Points>
-
-<Points 
- xyType="0"
- angle="0"
- xy="(-300:-200)"
->
-
-</Points>
-
-</Path>
-
-<Label 
- label="IN"
- aliasLabel=""
- bBox="((0:-226)(72:-174))"
- origin="(0:-200)"
- justify="3"
- rotation="0"
- height="52"
- color="0"
- labelType="20"
- visibility="0"
- relativeOrigin="0"
- offset="(0:0)"
->
-
-</Label>
-
-<Property 
- name="#"
- aliasName=""
- value="1"
- bBox="((0:0)(0:0))"
- origin="(-60:-175)"
- justify="2"
- rotation="0"
- height="52"
- color="0"
- labelType="21"
- visibility="1"
- relativeOrigin="0"
- offset="(0:0)"
- relativeOrder="0"
->
-
-</Property>
-
-</Pin>
-
-<Pin 
- bBox="((0:0)(0:0))"
- cBox="((0:0)(0:0))"
- color="0"
- row="3"
- portName=""
- busName=""
- signalName=""
- pinName="NC"
- aliasName=""
- annotatedName=""
- pinText="NC"
- signalType="0"
- pinType="1"
- bitNumber="0"
- msb="0"
- lsb="0"
- padType="0"
- padName=""
- pinNumber="4"
- pinNumberSwaps=""
- hotSpot="(900:-400)"
- origin="(600:-400)"
- rotation="0"
- matrix="(0:0)"
- direction="10"
- function="0"
- mechanicalElectrical="0"
- gate=""
- gateSwap=""
- pinSwap=""
- terminate=""
- annotate=""
- symbol="1"
- side="1"
- position="4"
- sequence="3"
- bank=""
- standard=""
- voltage=""
- group=""
- scratch1=""
- scratch2=""
- scratch3=""
- scratch4=""
- scratch5=""
->
-
-<Path 
- bBox="((0:0)(0:0))"
- layer="0"
- color="10"
- fill="0"
- pattern="0"
- width="0"
->
-
-<Points 
- xyType="0"
- angle="0"
- xy="(600:-400)"
->
-
-</Points>
-
-<Points 
- xyType="0"
- angle="0"
- xy="(900:-400)"
->
-
-</Points>
-
-</Path>
-
-<Label 
- label="NC"
- aliasLabel=""
- bBox="((528:-426)(600:-374))"
- origin="(600:-400)"
- justify="5"
- rotation="0"
- height="52"
- color="0"
- labelType="20"
- visibility="0"
- relativeOrigin="0"
- offset="(0:0)"
->
-
-</Label>
-
-<Property 
- name="#"
- aliasName=""
- value="4"
- bBox="((0:0)(0:0))"
- origin="(660:-375)"
- justify="0"
- rotation="0"
- height="52"
- color="0"
- labelType="21"
- visibility="1"
- relativeOrigin="0"
- offset="(0:0)"
- relativeOrder="0"
->
-
-</Property>
-
-</Pin>
-
-<Pin 
- bBox="((0:0)(0:0))"
- cBox="((0:0)(0:0))"
- color="0"
- row="4"
- portName=""
- busName=""
- signalName=""
- pinName="OUT"
- aliasName=""
- annotatedName=""
- pinText="OUT"
- signalType="0"
- pinType="1"
- bitNumber="0"
- msb="0"
- lsb="0"
- padType="0"
- padName=""
- pinNumber="5"
+ pinNumber="3"
  pinNumberSwaps=""
  hotSpot="(900:-200)"
  origin="(600:-200)"
  rotation="0"
  matrix="(0:0)"
- direction="4"
+ direction="5"
  function="0"
  mechanicalElectrical="0"
  gate=""
@@ -535,7 +309,7 @@
  symbol="1"
  side="1"
  position="2"
- sequence="4"
+ sequence="3"
  bank=""
  standard=""
  voltage=""
@@ -575,9 +349,9 @@
 </Path>
 
 <Label 
- label="OUT"
+ label="ANODE"
  aliasLabel=""
- bBox="((491:-226)(600:-174))"
+ bBox="((418:-226)(600:-174))"
  origin="(600:-200)"
  justify="5"
  rotation="0"
@@ -594,7 +368,7 @@
 <Property 
  name="#"
  aliasName=""
- value="5"
+ value="3"
  bBox="((0:0)(0:0))"
  origin="(660:-175)"
  justify="0"
@@ -634,9 +408,9 @@
 <Property 
  name="Value"
  aliasName=""
- value="TPS70933"
+ value="TL431"
  bBox="((0:0)(0:0))"
- origin="(0:-725)"
+ origin="(0:-625)"
  justify="0"
  rotation="0"
  height="70"
@@ -653,9 +427,9 @@
 <Property 
  name="PCB Footprint"
  aliasName=""
- value="SOT23-5N"
+ value="SOT23"
  bBox="((0:0)(0:0))"
- origin="(0:-825)"
+ origin="(0:-725)"
  justify="0"
  rotation="0"
  height="70"
@@ -674,7 +448,7 @@
  aliasName=""
  value="?"
  bBox="((0:0)(0:0))"
- origin="(0:-950)"
+ origin="(0:-850)"
  justify="0"
  rotation="0"
  height="80"
@@ -691,9 +465,9 @@
 <Property 
  name="Name"
  aliasName=""
- value="TPS70933"
+ value="TL431"
  bBox="((0:0)(0:0))"
- origin="(600:-600)"
+ origin="(600:-500)"
  justify="0"
  rotation="0"
  height="80"
@@ -719,7 +493,7 @@
  name="1"
  assignedName=""
  width="600"
- height="600"
+ height="500"
 >
 
 <Property 
@@ -744,9 +518,9 @@
 <Property 
  name="Value"
  aliasName=""
- value="TPS70933"
+ value="TL431"
  bBox="((0:0)(0:0))"
- origin="(0:-725)"
+ origin="(0:-625)"
  justify="0"
  rotation="0"
  height="70"
@@ -763,9 +537,9 @@
 <Property 
  name="PCB Footprint"
  aliasName=""
- value="SOT23-5N"
+ value="SOT23"
  bBox="((0:0)(0:0))"
- origin="(0:-825)"
+ origin="(0:-725)"
  justify="0"
  rotation="0"
  height="70"
@@ -784,7 +558,7 @@
  aliasName=""
  value="?"
  bBox="((0:0)(0:0))"
- origin="(0:-950)"
+ origin="(0:-850)"
  justify="0"
  rotation="0"
  height="80"
@@ -801,9 +575,9 @@
 <Property 
  name="Name"
  aliasName=""
- value="TPS70933"
+ value="TL431"
  bBox="((0:0)(0:0))"
- origin="(600:-600)"
+ origin="(600:-500)"
  justify="0"
  rotation="0"
  height="80"
@@ -841,7 +615,7 @@
 <Property 
  name="Value"
  aliasName=""
- value="TPS70933"
+ value="TL431"
  bBox="((0:0)(0:0))"
  origin="(0:0)"
  justify="0"
@@ -860,7 +634,7 @@
 <Property 
  name="PCB Footprint"
  aliasName=""
- value="SOT23-5N"
+ value="SOT23"
  bBox="((0:0)(0:0))"
  origin="(0:0)"
  justify="0"
@@ -898,7 +672,7 @@
 <Property 
  name="Name"
  aliasName=""
- value="TPS70933"
+ value="TL431"
  bBox="((0:0)(0:0))"
  origin="(0:0)"
  justify="0"

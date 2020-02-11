@@ -36,7 +36,7 @@
     (DRC_Run_Electrical_Rules "TRUE")
     (DRC_Run_Physical_Rules "FALSE")
     (DRC_Report_File
-       "E:\Project\FPMemory\ElectronicDesign\Schmatic\FPMEMORY.DRC")
+       "D:\Project\FPMemory_BLE\ElectronicDesign\Schmatic\FPMEMORY.DRC")
     (DRC_Check_Ports "FALSE")
     (DRC_Check_Off-Page_Connectors "TRUE")
     (DRC_Report_Ports_and_Off-page_Connectors "FALSE")
@@ -136,9 +136,16 @@
       (Type "Report")
       (DisplayName "FPMEMORY.swp"))
     (File ".\fpmemory.bom"
+      (Type "Report"))
+    (File "e:\project\fpmemory\electronicdesign\schmatic\fpmemory.drc"
       (Type "Report")))
   (Folder "Referenced Projects")
   (PartMRUSelector
+    (TL431
+      (FullPartName "TL431.Normal")
+      (LibraryName
+         "D:\PROJECT\FPMEMORY_BLE\ELECTRONICDESIGN\SCHMATIC\LIBRARY\USER.OLB")
+      (DeviceIndex "0"))
     (TPS70933
       (FullPartName "TPS70933.Normal")
       (LibraryName
@@ -253,10 +260,6 @@
       (FullPartName "IMS-C20B.Normal")
       (LibraryName
          "D:\CADENCE\CADENCE_SPB_17.2-2016\TOOLS\CAPTURE\LIBRARY\USER.OLB")
-      (DeviceIndex "0"))
-    (PORTRIGHT-L
-      (LibraryName
-         "D:\CADENCE\CADENCE_SPB_17.2-2016\TOOLS\CAPTURE\LIBRARY\CAPSYM.OLB")
       (DeviceIndex "0")))
   (LastUsedLibraryBrowseDirectory
      "C:\Cadence\Cadence_SPB_17.2-2016\tools\capture\library")
@@ -264,17 +267,40 @@
   (GlobalState
     (FileView
       (Path "Design Resources")
-      (Path "Design Resources" ".\fpmemory.dsn")
-      (Path "Design Resources" ".\fpmemory.dsn" "FPMemory")
-      (Path "Design Resources" ".\fpmemory.dsn" "Design Cache")
+      (Path "Design Resources"
+         "d:\project\fpmemory_ble\electronicdesign\schmatic\fpmemory.dsn")
+      (Path "Design Resources"
+         "d:\project\fpmemory_ble\electronicdesign\schmatic\fpmemory.dsn"
+         "FPMemory")
+      (Path "Design Resources"
+         "d:\project\fpmemory_ble\electronicdesign\schmatic\fpmemory.dsn"
+         "Design Cache")
       (Path "Design Resources" "Library")
-      (Path "Design Resources" "Library" ".\library\user.olb")
-      (Path "Outputs")
-      (Select "Design Resources" "Library" ".\library\user.olb" "Res"))
+      (Path "Design Resources" "Library"
+         "d:\project\fpmemory_ble\electronicdesign\schmatic\library\user.olb")
+      (Path "Outputs"))
     (HierarchyView)
     (Doc
       (Type "COrCapturePMDoc")
       (Frame
-        (Placement "44 2 3 -1 -1 -8 -31 0 200 0 420"))
-      (Tab 0)))
+        (Placement "44 0 1 -1 -1 -8 -31 0 200 0 420"))
+      (Tab 0))
+    (Doc
+      (Type "COrPrmBrowserDoc")
+      (Frame
+        (Placement "44 0 1 -1 -1 -8 -31 78 1681 78 537"))
+      (Path
+         "D:\PROJECT\FPMEMORY_BLE\ELECTRONICDESIGN\SCHMATIC\LIBRARY\USER.OLB")
+      (Package "TPS70933")
+      (PartType "1"))
+    (Doc
+      (Type "COrSchematicDoc")
+      (Frame
+        (Placement "44 2 3 -1 -1 -8 -31 104 1707 104 563")
+        (Scroll "-129 131")
+        (Zoom "100")
+        (Occurrence "/"))
+      (Path "D:\PROJECT\FPMEMORY_BLE\ELECTRONICDESIGN\SCHMATIC\FPMEMORY.DSN")
+      (Schematic "FPMemory")
+      (Page "FPMemory_I2C")))
   (ISPCBBASICLICENSE "false"))
