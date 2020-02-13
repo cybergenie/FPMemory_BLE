@@ -48,6 +48,8 @@
 #define I2C_STATUS_MAX_LEN         (20)
 #define I2C_DATA_BUFF_MAX_LEN      (2*1024)
 
+#define IMU_WAKE_UP                 0x22
+
 /* Attributes State Machine */
 enum
 {

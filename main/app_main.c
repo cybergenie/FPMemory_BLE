@@ -47,6 +47,7 @@
 #define GATTS_DEMO_CHAR_VAL_LEN_MAX 500
 #define PREPARE_BUF_MAX_SIZE 1024
 #define CHAR_DECLARATION_SIZE (sizeof(uint8_t))
+// #define I2C_MASTER_NUM I2C_NUMBER(CONFIG_I2C_MASTER_PORT_NUM) /*!< I2C port number for master dev */
 
 #define ADV_CONFIG_FLAG (1 << 0)
 #define SCAN_RSP_CONFIG_FLAG (1 << 1)
@@ -532,7 +533,7 @@ static void gatts_profile_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_
             ESP_LOGI(GATTS_TABLE_TAG, "GATT_WRITE_EVT, handle = %d, value len = %d, value :", param->write.handle, param->write.len);
             esp_log_buffer_hex(GATTS_TABLE_TAG, param->write.value, param->write.len);
 
-            if (res == I2C_COMMAND_VAL)
+            if (res == IMU_DATA_NTY_VAL)
             {
                 uint8_t *spp_cmd_buff = NULL;
                 spp_cmd_buff = (uint8_t *)malloc((i2c_mtu_size - 3) * sizeof(uint8_t));
@@ -706,32 +707,6 @@ static void gatts_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_t gatts_
 
 //********************I2C*****************************
 
-// static esp_err_t i2c_master_read_slave(i2c_port_t i2c_num, uint8_t *data_rd, size_t size)
-// {
-//     int ret;
-//     if (size == 0)
-//     {
-//         return ESP_OK;
-//     }
-//     i2c_cmd_handle_t cmd = i2c_cmd_link_create();
-//     //----------------
-//     i2c_master_start(cmd);
-//     i2c_master_write_byte(cmd, ESP_SLAVE_ADDR << 1 | WRITE_BIT, ACK_CHECK_EN);
-//     i2c_master_write_byte(cmd, 0x30, ACK_CHECK_EN);
-//     i2c_master_start(cmd);
-//     i2c_master_write_byte(cmd, (ESP_SLAVE_ADDR << 1) | READ_BIT, ACK_CHECK_EN);
-//     if (size > 1)
-//     {
-//         i2c_master_read(cmd, data_rd, size - 1, ACK_VAL);
-//     }
-//     i2c_master_read_byte(cmd, data_rd + size - 1, NACK_VAL);
-    
-//     i2c_master_stop(cmd);
-//     ret = i2c_master_cmd_begin(i2c_num, cmd, 1000 / portTICK_RATE_MS);
-//     i2c_cmd_link_delete(cmd);
-//     return ret;
-// }
-
 static void disp_buf(uint8_t *buf, int len)
 {
     int i;
@@ -751,7 +726,7 @@ static void i2c_task(void *arg)
     //int i = 0;
     int ret;
     uint32_t task_idx = (uint32_t)arg;
-    uint8_t data_rd[DATA_LENGTH];
+    IMU_Data imu_data_rd;
     int cnt = 0;
     while (1)
     {
@@ -760,8 +735,7 @@ static void i2c_task(void *arg)
 
         xSemaphoreTake(print_mux, portMAX_DELAY);
 
-        ret = i2c_master_read_imu(I2C_MASTER_NUM, data_rd, sizeof(data_rd));
-        size_t d_size = sizeof(data_rd);
+        ret = read_imu_data(&imu_data_rd);
 
         if (ret == ESP_ERR_TIMEOUT)
         {
@@ -771,10 +745,27 @@ static void i2c_task(void *arg)
         {
             printf("*******************\n");
             printf("TASK[%d]  MASTER READ FROM SLAVE\n", task_idx);
-            disp_buf(data_rd, d_size);
+            disp_buf(imu_data_rd.spatial_attitude, sizeof(imu_data_rd.spatial_attitude));
+            disp_buf(imu_data_rd.appendix_infor, sizeof(imu_data_rd.appendix_infor));
+            if (is_connected == true)
+            {
 
-            //printf("i2c_conn_id: x%", i2c_gatts_if);
-            esp_ble_gatts_send_indicate(i2c_gatts_if, i2c_conn_id, i2c_handle_table[I2C_DATA_NTY_VAL],sizeof(data_rd), data_rd, false);
+                if (enable_imu_ntf == true)
+                {
+                    esp_ble_gatts_send_indicate(i2c_gatts_if, i2c_conn_id, i2c_handle_table[IMU_DATA_NTY_VAL], sizeof(imu_data_rd.appendix_infor), imu_data_rd.appendix_infor, false);
+                    esp_ble_gatts_send_indicate(i2c_gatts_if, i2c_conn_id, i2c_handle_table[IMU_DATA_NTY_VAL], sizeof(imu_data_rd.spatial_attitude), imu_data_rd.spatial_attitude, false);
+                }
+                else
+                {
+                    ESP_LOGW(I2C_TAG, "TASK[%d] %s: the ble notify is closed.\n",
+                             task_idx, esp_err_to_name(ret));
+                }
+            }
+            else
+            {
+                ESP_LOGW(I2C_TAG, "TASK[%d] %s: the ble is not connected.\n",
+                         task_idx, esp_err_to_name(ret));
+            }
         }
         else
         {
@@ -824,8 +815,31 @@ void i2c_cmd_task(void *arg)
         vTaskDelay(50 / portTICK_PERIOD_MS);
         if (xQueueReceive(cmd_cmd_queue, &cmd_id, portMAX_DELAY))
         {
-            esp_log_buffer_char(I2C_TAG, (char *)(cmd_id), strlen((char *)cmd_id));
-            ESP_LOGE(GATTS_TABLE_TAG, "cmd_id: %02x", cmd_id[0]);
+            uint8_t IMU_COMMAND = cmd_id[0];
+            // esp_log_buffer_char(I2C_TAG, (char *)(cmd_id), strlen((char *)cmd_id));
+            ESP_LOGE(GATTS_TABLE_TAG, "cmd_ids: %02x", IMU_COMMAND);
+
+            // switch (IMU_COMMAND)
+            // {
+            // case IMU_WAKE_UP:
+            // {
+            //     esp_err_t ret;
+            //     uint8_t imu_command[3] = {0x22, 0x01, 0x00};
+            //     // ret = write_imu_command(imu_command, sizeof(imu_command));
+            //     if (ret == ESP_OK)
+            //     {
+            //         ESP_LOGI(I2C_TAG, "IMU wake up sucessfully.");
+            //     }
+            //     else
+            //     {
+            //         ESP_LOGE(I2C_TAG, "IMU wake up failed.");
+            //     }
+            //     break;
+            // }
+
+            // default:
+            //     break;
+            // }            
             free(cmd_id);
         }
     }
