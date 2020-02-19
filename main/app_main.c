@@ -21,7 +21,7 @@
 #include "freertos/event_groups.h"
 #include "driver/i2c.h"
 #include "jy901.h"
-#include "ad7998.h"
+#include "ad799x.h"
 #include "esp_system.h"
 #include "esp_log.h"
 #include "nvs_flash.h"
@@ -819,7 +819,7 @@ void i2c_cmd_task(void *arg)
             uint8_t IMU_COMMAND = cmd_id[0];
             // esp_log_buffer_char(I2C_TAG, (char *)(cmd_id), strlen((char *)cmd_id));
             ESP_LOGE(GATTS_TABLE_TAG, "cmd_ids: %02x", IMU_COMMAND);
-            ad7998_enable();
+            //ad7998_power_up();
 
             // switch (IMU_COMMAND)
             // {

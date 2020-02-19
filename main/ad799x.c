@@ -1,6 +1,6 @@
-#include "ad7998.h"
+#include "ad799x.h"
 
-static void ad7998_convst_gpio_init(void)
+static void ad799x_convst_gpio_init(void)
 {
     //定义一个gpio_config类型的结构体，下面的都算对其进行的配置
     gpio_config_t io_conf;
@@ -18,10 +18,17 @@ static void ad7998_convst_gpio_init(void)
     gpio_config(&io_conf);
 }
 
-esp_err_t ad7998_enable(void)
+//GPIO4高电平持续5ms，启动ADC
+esp_err_t ad799x_power_up(void)
 {
     esp_err_t ret;
     ad7998_convst_gpio_init();
-    ret = gpio_set_level(GPIO_AD7998_CONVST, 1);
+    ret = gpio_set_level(GPIO_AD7998_CONVST, 1);    
+    if (ret == ESP_OK)
+    {
+        vTaskDelay(5 / portTICK_PERIOD_MS);
+        ret = gpio_set_level(GPIO_AD7998_CONVST, 0);
+    }    
     return ret;
 }
+

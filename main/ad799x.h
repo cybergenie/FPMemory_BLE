@@ -1,4 +1,9 @@
+#ifndef __AD799X_H__
+#define __AD799X_H__
+
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 #include "freertos/FreeRTOS.h"
 #include "freertos/task.h"
 #include "freertos/queue.h"
@@ -16,4 +21,6 @@ typedef struct
 } ad7998_config_t;
 
 
-esp_err_t ad7998_enable(void);
+esp_err_t ad799x_power_up(void);
+
+#endif

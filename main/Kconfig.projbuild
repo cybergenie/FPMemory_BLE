@@ -38,7 +38,7 @@ menu "FPMemory_BLE Configuration"
                 default 0xA1
                 help
                         Hardware Address of AD7998 I2CPort.
-            config GPIO_AD7998_CONVST
+            config GPIO_AD799X_CONVST
                 int "AD7998 Logic Input Signal IO"
                 default 4
                 help
