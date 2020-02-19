@@ -1,3 +1,0 @@
-CATHODE	1	I/O	Shunt Current/Voltage input																
-REF	2	I	Threshold relative to common anode																
-ANODE	3	O	Common pin, normally connected to																

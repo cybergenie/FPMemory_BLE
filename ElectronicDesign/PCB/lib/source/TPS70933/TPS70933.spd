@@ -1,5 +1,0 @@
-EN	3	I	Enable pin. Drive this pin high to enable the device. Drive this pin low to put the device into low current shutdown. This pin can be left floating to enable the device. The maximum voltage must remain below 6.5 V.																
-GND	2	~	Ground																
-IN	1	I	Unregulated input to the device																
-NC	4	~	No internal connection																
-OUT	5	O	Regulated output voltage. Connect a small 2.2-µF or greater ceramic capacitor from this pin to ground to assure stability.																
