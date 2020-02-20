@@ -49,14 +49,9 @@ typedef struct
     uint8_t result_config[2];
     uint8_t addr_config_reg[2];
     
-} ad7998_config_t;
+} ad799x_config_t;
 
-ad7998_config_t ad7998_config = {
-    // .convst = false,
-    .addr_result_geg = {0x00,0x00},     //
-    .result_config = {0x0F,0xF8},
-    .addr_config_reg = {0x00,0x02},
-};
+
 
 
 esp_err_t ad799x_power_up(void);

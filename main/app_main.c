@@ -737,6 +737,7 @@ static void i2c_task(void *arg)
         xSemaphoreTake(print_mux, portMAX_DELAY);
 
         ret = read_imu_data(&imu_data_rd);
+        
 
         if (ret == ESP_ERR_TIMEOUT)
         {

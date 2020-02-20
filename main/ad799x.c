@@ -1,5 +1,12 @@
 #include "ad799x.h"
 
+ad799x_config_t ad799x_config = {
+    // .convst = false,
+    .addr_result_geg = {0x00,0x00},     //
+    .result_config = {0x0F,0xF8},
+    .addr_config_reg = {0x00,0x02},
+};
+
 static void ad799x_convst_gpio_init(void)
 {
     //定义一个gpio_config类型的结构体，下面的都算对其进行的配置
@@ -42,12 +49,12 @@ static esp_err_t i2c_master_read_adc(i2c_port_t i2c_num, uint8_t *data_rd, size_
 
     i2c_cmd_handle_t cmd = i2c_cmd_link_create();
     //----------------
-    esp_err_t temp = i2c_master_start(cmd);
-    i2c_master_write_byte(cmd, ESP_SLAVE_ADDR << 1 | WRITE_BIT, ACK_CHECK_EN);
-    i2c_master_write(cmd, ad7998_config.addr_config_reg, 2, ACK_CHECK_EN);
-    i2c_master_write(cmd, ad7998_config.result_config, 2, ACK_CHECK_EN);
     i2c_master_start(cmd);
-    i2c_master_write(cmd, ad7998_config.addr_result_geg, 2, ACK_CHECK_EN);
+    i2c_master_write_byte(cmd, ESP_SLAVE_ADDR << 1 | WRITE_BIT, ACK_CHECK_EN);
+    i2c_master_write(cmd, ad799x_config.addr_config_reg, 2, ACK_CHECK_EN);
+    i2c_master_write(cmd, ad799x_config.result_config, 2, ACK_CHECK_EN);
+    i2c_master_start(cmd);
+    i2c_master_write(cmd, ad799x_config.addr_result_geg, 2, ACK_CHECK_EN);
     i2c_master_start(cmd);
     i2c_master_write_byte(cmd, (ESP_SLAVE_ADDR << 1) | READ_BIT, ACK_CHECK_EN);
     if (size > 1)
@@ -84,5 +91,6 @@ esp_err_t read_adc_data(ADC_Data *adc_data_rd)
         memcpy(adc_data_rd->data_sensor_8,data_rd+14,2);
 
     }
+    return ret;
 
 }

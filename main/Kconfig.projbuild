@@ -33,16 +33,17 @@ menu "FPMemory_BLE Configuration"
             default 0x50
             help
                 Hardware Address of IMU I2CPort.
-            config I2C_ADC_ADDRESS
-                hex "AD7998 Slave Address"
-                default 0xA1
-                help
-                        Hardware Address of AD7998 I2CPort.
-            config GPIO_AD799X_CONVST
-                int "AD7998 Logic Input Signal IO"
-                default 4
-                help
-                    Hardware GPIO for AD7998 Logic Input Signal,high level is enable.
+
+        config I2C_ADC_ADDRESS
+            hex "AD7998 Slave Address"
+            default 0x21
+            help
+                Hardware Address of AD7998 I2CPort.
+        config GPIO_AD799X_CONVST
+            int "AD7998 Logic Input Signal IO"
+            default 4
+            help
+                Hardware GPIO for AD7998 Logic Input Signal,high level is enable.
     endmenu    
 
 endmenu
