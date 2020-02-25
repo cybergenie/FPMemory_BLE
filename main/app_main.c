@@ -755,6 +755,7 @@ static void i2c_task(void *arg)
                 if (enable_imu_ntf == true)
                 {
                     esp_ble_gatts_send_indicate(i2c_gatts_if, i2c_conn_id, i2c_handle_table[IMU_DATA_NTY_VAL], sizeof(imu_data_rd.appendix_infor), imu_data_rd.appendix_infor, false);
+                    vTaskDelay(5 / portTICK_PERIOD_MS);
                     esp_ble_gatts_send_indicate(i2c_gatts_if, i2c_conn_id, i2c_handle_table[IMU_DATA_NTY_VAL], sizeof(imu_data_rd.spatial_attitude), imu_data_rd.spatial_attitude, false);
                 }
                 else
@@ -787,9 +788,9 @@ static esp_err_t i2c_master_init(void)
     int i2c_master_port = I2C_MASTER_NUM;
     i2c_config_t conf;
     conf.mode = I2C_MODE_MASTER;
-    conf.sda_io_num = I2C_MASTER_SDA_IO;
-    conf.sda_pullup_en = GPIO_PULLUP_ENABLE;
-    conf.scl_io_num = I2C_MASTER_SCL_IO;
+    conf.sda_io_num = I2C_MASTER_SDA_IO;        //IO22
+    conf.sda_pullup_en = GPIO_PULLUP_ENABLE;    
+    conf.scl_io_num = I2C_MASTER_SCL_IO;        //IO23
     conf.scl_pullup_en = GPIO_PULLUP_ENABLE;
     conf.master.clk_speed = I2C_MASTER_FREQ_HZ;
     i2c_param_config(i2c_master_port, &conf);
