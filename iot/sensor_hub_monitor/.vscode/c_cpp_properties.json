@@ -1,0 +1,58 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "D:/ProgramData/esp-iot-solution/components/sensors/sensor_hub/include",
+                "D:/ProgramData/esp-iot-solution/components/sensors/imu/jy901/include",
+                "D:/ProgramData/esp-iot-solution/components/sensors/imu/mpu6050/include",
+                "D:/ProgramData/esp-idf/components/esp_common/include",
+                "D:/ProgramData/esp-idf/components/freertos/include",
+                "D:/ProgramData/esp-idf/components/freertos/xtensa/include",
+                "D:/ProgramData/esp-idf/components/xtensa/include",
+                "D:/ProgramData/esp-idf/components/xtensa/esp32/include",
+                "D:/ProgramData/esp-idf/components/esp_rom/include",
+                "D:/ProgramData/esp-idf/components/esp_timer/include",
+                "D:/ProgramData/esp-idf/components/soc/include",
+                "D:/ProgramData/esp-idf/components/soc/src/esp32/include",
+                "D:/ProgramData/esp-idf/components/soc/soc/esp32/include",
+                "D:/ProgramData/esp-idf/components/heap/include",
+                "D:/ProgramData/esp-idf/components/esp_system/include",
+                "D:/ProgramData/esp-idf/components/esp_event/include",
+                "D:/ProgramData/esp-idf/components/esp_wifi/include",
+                "D:/ProgramData/esp-idf/components/esp_netif/include",
+                "D:/ProgramData/esp-idf/components/log/include",
+                "D:/ProgramData/esp-iot-solution/components/bus/include",
+                "D:/ProgramData/esp-idf/components/driver/include",
+                "D:/ProgramData/esp-idf/components/esp32/include",
+                "D:/ProgramData/esp-idf/components/esp_ringbuf/include",
+                "D:/ProgramData/esp-idf/components/soc/soc/include",
+                "D:/ProgramData/esp-idf/components/esp_eth/include",
+                "D:/ProgramData/esp-idf/components/tcpip_adapter/include",
+                "D:/ProgramData/esp-idf/components/lwip/lwip/src/include",
+                "D:/ProgramData/esp-idf/components/lwip/lwip/test/fuzz",
+                "D:/ProgramData/esp-idf/components/lwip/port/esp32/include",
+                "D:/ProgramData/esp-idf/components/lwip/include/apps"
+                
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "D:/ProgramData/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc.exe",
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "linux-gcc-x64",
+            "browse": {
+                "path": [
+                    "D:/ProgramData/esp-iot-solution/components",
+                    "D:/ProgramData/esp-idf/components",
+                    "D:/ProgramData/.espressif/tools"                    
+                ]
+            }
+        }
+    ],
+    "version": 4
+}

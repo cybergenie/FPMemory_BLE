@@ -1,0 +1,16 @@
+{
+    "files.associations": {
+        "*.cjson": "jsonc",
+        "*.wxss": "css",
+        "*.wxs": "javascript",
+        "board.h": "c",
+        "iot_sensor_hub.h": "c",
+        "jy901.h": "c",
+        "imu_hal.h": "c",
+        "esp_log.h": "c",
+        "*.ipp": "c",
+        "ratio": "c"
+    },
+    "idf.flashType": "UART",
+    "C_Cpp.dimInactiveRegions": true
+}

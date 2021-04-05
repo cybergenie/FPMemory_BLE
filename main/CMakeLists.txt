@@ -1,2 +1,2 @@
-idf_component_register(SRCS "ad799x.c" "app_main.c" "jy901.c"
+idf_component_register(SRCS "cmd_i2ctools.c" "fpmemory_ble.c"
                     INCLUDE_DIRS ".")

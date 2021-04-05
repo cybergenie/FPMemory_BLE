@@ -1,0 +1,47 @@
+{
+    "configurations": [
+        {
+            "name": "Win32",
+            "includePath": [
+                "${workspaceFolder}/**",
+                "D:/ProgramData/esp-idf/components/freertos/include",
+                "D:/ProgramData/esp-idf/components/esp_common/include",
+                "D:/ProgramData/esp-idf/components/freertos/xtensa/include",
+                "D:/ProgramData/esp-idf/components/xtensa/include",
+                "D:/ProgramData/esp-idf/components/xtensa/esp32/include",
+                "D:/ProgramData/esp-idf/components/esp_rom/include",
+                "D:/ProgramData/esp-idf/components/esp_timer/include",
+                "D:/ProgramData/esp-idf/components/soc/include",
+                "D:/ProgramData/esp-idf/components/soc/src/esp32/include",
+                "D:/ProgramData/esp-idf/components/soc/soc/esp32/include",
+                "D:/ProgramData/esp-idf/components/heap/include",
+                "D:/ProgramData/esp-idf/components/esp_system/include",
+                "D:/ProgramData/esp-idf/components/log/include",
+                "D:/ProgramData/esp-idf/components/nvs_flash/include",
+                "D:/ProgramData/esp-idf/components/spi_flash/include",
+                "D:/ProgramData/esp-idf/components/bt/include",
+                "D:/ProgramData/esp-idf/components/driver/include",
+                "D:/ProgramData/esp-idf/components/esp32/include",
+                "D:/ProgramData/esp-idf/components/esp_ringbuf/include",
+                "D:/ProgramData/esp-idf/components/bt/host/bluedroid/api/include/api"
+            ],
+            "defines": [
+                "_DEBUG",
+                "UNICODE",
+                "_UNICODE"
+            ],
+            "compilerPath": "D:/ProgramData/.espressif/tools/xtensa-esp32-elf/esp-2020r3-8.4.0/xtensa-esp32-elf/bin/xtensa-esp32-elf-gcc.exe",
+            "cStandard": "gnu11",
+            "cppStandard": "gnu++14",
+            "intelliSenseMode": "linux-gcc-x64",
+            "browse": {
+                "path": [
+                    "D:/ProgramData/esp-iot-solution/components",
+                    "D:/ProgramData/esp-idf/components",
+                    "D:/ProgramData/.espressif/tools"
+                ]
+            }
+        }
+    ],
+    "version": 4
+}

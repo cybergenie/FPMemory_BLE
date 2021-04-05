@@ -1,15 +1,15 @@
-menu "FPMemory_BLE Configuration"
+menu "Example Configuration"
 
     menu "I2C Master"
         config I2C_MASTER_SCL
             int "SCL GPIO Num"
-            default 23
+            default 19
             help
                 GPIO number for I2C Master clock line.
 
         config I2C_MASTER_SDA
             int "SDA GPIO Num"
-            default 22
+            default 18
             help
                 GPIO number for I2C Master data line.
 
@@ -26,24 +26,12 @@ menu "FPMemory_BLE Configuration"
                 I2C Speed of Master device.
     endmenu
 
-    menu "I2C Sensor"       
-        
-        config I2C_IMU_ADDRESS
-            hex "IMU Slave Address"
-            default 0x50
+    menu "I2C Slave"   
+        config I2C_SLAVE_ADDRESS
+            hex "ESP Slave Address"
+            default 0x28
             help
-                Hardware Address of IMU I2CPort.
-
-        config I2C_ADC_ADDRESS
-            hex "AD7998 Slave Address"
-            default 0x21
-            help
-                Hardware Address of AD7998 I2CPort.
-        config GPIO_AD799X_CONVST
-            int "AD7998 Logic Input Signal IO"
-            default 4
-            help
-                Hardware GPIO for AD7998 Logic Input Signal,high level is enable.
-    endmenu    
+                Hardware Address of I2C Slave Port.
+    endmenu
 
 endmenu
