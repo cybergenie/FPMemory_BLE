@@ -9,7 +9,9 @@
         "imu_hal.h": "c",
         "esp_log.h": "c",
         "*.ipp": "c",
-        "ratio": "c"
+        "ratio": "c",
+        "mpu6050.h": "c",
+        "i2c_buffer.h": "c"
     },
     "idf.flashType": "UART",
     "C_Cpp.dimInactiveRegions": true

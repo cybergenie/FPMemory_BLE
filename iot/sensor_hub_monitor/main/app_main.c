@@ -15,6 +15,7 @@
 #include "esp_log.h"
 #include "board.h"
 #include "iot_sensor_hub.h"
+#include "i2c_buffer.h"
 
 #define SENSOR_PERIOD CONFIG_SENSOR_EXAMPLE_PERIOD
 
@@ -22,6 +23,11 @@
 
 static void sensor_event_handler(void *handler_args, esp_event_base_t base, int32_t id, void *event_data)
 {
+    struct i2c_buffer_t *sensor_data_buffer = i2c_buffer_create();
+    if(sensor_data_buffer == NULL){
+		ESP_LOGE(TAG,"sensor_data_buffer create err!");
+		return 0;
+	}
     sensor_data_t *sensor_data = (sensor_data_t *)event_data;
     sensor_type_t sensor_type = (sensor_type_t)((sensor_data->sensor_id) >> 4 & SENSOR_ID_MASK);
 
