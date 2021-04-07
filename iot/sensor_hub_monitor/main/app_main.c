@@ -35,12 +35,15 @@ static void sensor_event_handler(void *handler_args, esp_event_base_t base, int3
         ESP_LOGE(TAG, "sensor_id invalid, id=%d", sensor_data->sensor_id);
         return;
     }
+    sensor_data_buffer->push(sensor_data_buffer,*sensor_data);
     switch (id) {
         case SENSOR_STARTED:
+        {                    
             ESP_LOGI(TAG, "Timestamp = %llu - %s SENSOR_STARTED",
                      sensor_data->timestamp,
                      SENSOR_TYPE_STRING[sensor_type]);
             break;
+        }
         case SENSOR_STOPED:
             ESP_LOGI(TAG, "Timestamp = %llu - %s SENSOR_STOPED",
                      sensor_data->timestamp,

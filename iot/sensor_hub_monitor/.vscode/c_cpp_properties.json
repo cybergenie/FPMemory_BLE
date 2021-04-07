@@ -33,8 +33,8 @@
                 "D:/ProgramData/esp-idf/components/lwip/lwip/src/include",
                 "D:/ProgramData/esp-idf/components/lwip/lwip/test/fuzz",
                 "D:/ProgramData/esp-idf/components/lwip/port/esp32/include",
-                "D:/ProgramData/esp-idf/components/lwip/include/apps"
-                
+                "D:/ProgramData/esp-idf/components/lwip/include/apps",
+                "${workspaceFolder}/main/common_components/i2c_buffer"
             ],
             "defines": [
                 "_DEBUG",
@@ -49,7 +49,7 @@
                 "path": [
                     "D:/ProgramData/esp-iot-solution/components",
                     "D:/ProgramData/esp-idf/components",
-                    "D:/ProgramData/.espressif/tools"                    
+                    "D:/ProgramData/.espressif/tools"
                 ]
             }
         }
