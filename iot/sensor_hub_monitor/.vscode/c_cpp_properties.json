@@ -34,7 +34,7 @@
                 "D:/ProgramData/esp-idf/components/lwip/lwip/test/fuzz",
                 "D:/ProgramData/esp-idf/components/lwip/port/esp32/include",
                 "D:/ProgramData/esp-idf/components/lwip/include/apps",
-                "${workspaceFolder}/main/common_components/i2c_buffer"
+                "D:/ProgramData/esp-iot-solution/examples/common_components/boards/esp32-devkitc-v4"
             ],
             "defines": [
                 "_DEBUG",

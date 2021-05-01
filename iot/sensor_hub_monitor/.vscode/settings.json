@@ -11,7 +11,8 @@
         "*.ipp": "c",
         "ratio": "c",
         "mpu6050.h": "c",
-        "i2c_buffer.h": "c"
+        "i2c_buffer.h": "c",
+        "sensor_type.h": "c"
     },
     "idf.flashType": "UART",
     "C_Cpp.dimInactiveRegions": true

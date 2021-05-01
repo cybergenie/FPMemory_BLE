@@ -21,12 +21,14 @@
 
 #define TAG "Sensors Monitor"
 
+struct i2c_buffer_t *sensor_data_buffer;
+
 static void sensor_event_handler(void *handler_args, esp_event_base_t base, int32_t id, void *event_data)
 {
-    struct i2c_buffer_t *sensor_data_buffer = i2c_buffer_create();
+    //struct i2c_buffer_t *sensor_data_buffer = i2c_buffer_create();
     if(sensor_data_buffer == NULL){
 		ESP_LOGE(TAG,"sensor_data_buffer create err!");
-		return 0;
+		return;
 	}
     sensor_data_t *sensor_data = (sensor_data_t *)event_data;
     sensor_type_t sensor_type = (sensor_type_t)((sensor_data->sensor_id) >> 4 & SENSOR_ID_MASK);
@@ -111,6 +113,7 @@ void app_main(void)
     if (i2c0_bus_handle == NULL) {
         goto error_loop;
     }
+    sensor_data_buffer = i2c_buffer_create();
 
     /*register handler with NULL specific typeID, thus all events posted to sensor_loop will be handled*/
     ESP_ERROR_CHECK(iot_sensor_handler_register_with_type(NULL_ID, NULL_ID, sensor_event_handler, NULL));

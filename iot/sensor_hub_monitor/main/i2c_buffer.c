@@ -1,11 +1,11 @@
 #include <stdio.h>
-#include "i2c_buffer.h"
 #include "esp_log.h"
 #include "iot_sensor_hub.h"
+#include "i2c_buffer.h"
 
 static const char *TAG = "I2C_Buffer";
 
-void buffer_push(struct i2c_buffer_t *p, sensor_data_t sensor_data)
+void i2c_buffer_push(struct i2c_buffer_t *p, sensor_data_t sensor_data)
 {
 	if(p->size >= MAX_BUFFER_SIZE){
 		p->i2c_buffer_err = ESP_FAIL;
@@ -28,15 +28,15 @@ void buffer_push(struct i2c_buffer_t *p, sensor_data_t sensor_data)
 	}
 	p->ptail = p_node;
 	p->size++;
-	p->i2c_buffer_err = ESP_OK;
+	p->i2c_buffer_err = ESP_OK;	
 }
 
 sensor_data_t i2c_buffer_pop(struct i2c_buffer_t *p)
 {
 	if(p->size <= 0){
-        ESP_LOGI(TAG,"pop failed! i2c buffer is empty.");		
+        ESP_LOGE(TAG,"pop failed! i2c buffer is empty.");		
 		p->i2c_buffer_err = ESP_FAIL;
-		return ;
+		return;
 	}
 	sensor_data_t ret = p->phead->sensor_data;
 	if(p->size == 1){			// last member in i2c buffer
