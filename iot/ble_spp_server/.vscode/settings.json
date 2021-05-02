@@ -1,0 +1,14 @@
+{
+    "files.associations": {
+        "*.cjson": "jsonc",
+        "*.wxss": "css",
+        "*.wxs": "javascript",
+        "array": "c",
+        "string_view": "c",
+        "initializer_list": "c",
+        "utility": "c",
+        "ble_spp_server_demo.h": "c",
+        "iot_server.h": "c"
+    },
+    "idf.flashType": "UART"
+}
