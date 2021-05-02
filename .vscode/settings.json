@@ -8,7 +8,8 @@
         "initializer_list": "c",
         "utility": "c",
         "ble_spp_server_demo.h": "c",
-        "iot_server.h": "c"
+        "iot_server.h": "c",
+        "esp_gatts_api.h": "c"
     },
     "idf.flashType": "UART"
 }

@@ -3,7 +3,9 @@
 # project subdirectory.
 #
 
-PROJECT_NAME := i2c-example
+PROJECT_NAME := ble_spp_server_demo
+
+COMPONENT_ADD_INCLUDEDIRS := components/include
 
 include $(IDF_PATH)/make/project.mk
 

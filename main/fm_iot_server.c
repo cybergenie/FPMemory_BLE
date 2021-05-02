@@ -20,51 +20,168 @@
 #include "esp_gatts_api.h"
 #include "esp_bt_defs.h"
 #include "esp_bt_main.h"
+
+#include "board.h"
 #include "iot_sensor_hub.h"
+
 #include "fm_iot_server.h"
 
 #define GATTS_TABLE_TAG  "FM_SENSOR_SERVER"
+
+#define SENSOR_PERIOD CONFIG_SENSOR_EXAMPLE_PERIOD
+#define SENSOR_BUFFER_SIZE CONFIG_SENSOR_BUFFER_SIZE
+
+
 #define TAG "ble Monitor"
 
+static void sensor_event_handler(void *handler_args, esp_event_base_t base, int32_t id, void *event_data)
+{        
+    sensor_data_t *sensor_data = (sensor_data_t *)event_data;
+    sensor_type_t sensor_type = (sensor_type_t)((sensor_data->sensor_id) >> 4 & SENSOR_ID_MASK);
 
-void ble_demo_task(void *pvParameters)
-{
-    portBASE_TYPE xStatus;
-    int lValueToSend =3;
-	while(1)
-	{
-        ESP_LOGE(TAG, "Test Task");	  
-        xStatus = xQueueSend( sensor_data_queue, &lValueToSend, 0 );
-        if( xStatus != pdPASS )
+    if (sensor_type >= SENSOR_TYPE_MAX) {
+        ESP_LOGE(TAG, "sensor_id invalid, id=%d", sensor_data->sensor_id);
+        return;
+    }    
+        if( xQueueSend( sensor_data_queue, sensor_data, 0 ) != pdPASS )
         {
             ESP_LOGE(TAG, "the sensor data buffer is full!");
         }
-
-      //使用此延时API可以将任务转入阻塞态，期间CPU继续运行其它任务
-	  vTaskDelay(10 );
-	}
-    vTaskDelete(NULL);
+    switch (id) {
+        case SENSOR_STARTED:
+        {                    
+            ESP_LOGI(TAG, "Timestamp = %llu - %s SENSOR_STARTED",
+                     sensor_data->timestamp,
+                     SENSOR_TYPE_STRING[sensor_type]);
+            break;
+        }
+        case SENSOR_STOPED:
+            ESP_LOGI(TAG, "Timestamp = %llu - %s SENSOR_STOPED",
+                     sensor_data->timestamp,
+                     SENSOR_TYPE_STRING[sensor_type]);
+            break;
+        case SENSOR_HUMI_DATA_READY:
+            ESP_LOGI(TAG, "Timestamp = %llu - SENSOR_HUMI_DATA_READY - "
+                     "humiture=%.2f",
+                     sensor_data->timestamp,
+                     sensor_data->humidity);
+            break;
+        case SENSOR_TEMP_DATA_READY:
+            ESP_LOGI(TAG, "Timestamp = %llu - SENSOR_TEMP_DATA_READY - "
+                     "temperature=%.2f\n",
+                     sensor_data->timestamp,
+                     sensor_data->temperature);
+            break;
+        case SENSOR_ACCE_DATA_READY:
+            ESP_LOGI(TAG, "Timestamp = %llu - SENSOR_ACCE_DATA_READY - "
+                     "acce_x=%.2f, acce_y=%.2f, acce_z=%.2f\n",
+                     sensor_data->timestamp,
+                     sensor_data->acce.x, sensor_data->acce.y, sensor_data->acce.z);
+            break;
+        case SENSOR_GYRO_DATA_READY:
+            ESP_LOGI(TAG, "Timestamp = %llu - SENSOR_GYRO_DATA_READY - "
+                     "gyro_x=%.2f, gyro_y=%.2f, gyro_z=%.2f\n",
+                     sensor_data->timestamp,
+                     sensor_data->gyro.x, sensor_data->gyro.y, sensor_data->gyro.z);
+            break;
+        case SENSOR_LIGHT_DATA_READY:
+            ESP_LOGI(TAG, "Timestamp = %llu - SENSOR_LIGHT_DATA_READY - "
+                     "light=%.2f",
+                     sensor_data->timestamp,
+                     sensor_data->light);
+            break;
+        case SENSOR_RGBW_DATA_READY:
+            ESP_LOGI(TAG, "Timestamp = %llu - SENSOR_RGBW_DATA_READY - "
+                     "r=%.2f, g=%.2f, b=%.2f, w=%.2f\n",
+                     sensor_data->timestamp,
+                     sensor_data->rgbw.r, sensor_data->rgbw.r, sensor_data->rgbw.b, sensor_data->rgbw.w);
+            break;
+        case SENSOR_UV_DATA_READY:
+            ESP_LOGI(TAG, "Timestamp = %llu - SENSOR_UV_DATA_READY - "
+                     "uv=%.2f, uva=%.2f, uvb=%.2f\n",
+                     sensor_data->timestamp,
+                     sensor_data->uv.uv, sensor_data->uv.uva, sensor_data->uv.uvb);
+            break;
+        default:
+            ESP_LOGI(TAG, "Timestamp = %llu - event id = %d", sensor_data->timestamp, id);
+            break;
+    }
 }
+
+
+
+void sensor_acq_task(void)
+{
+    /*initialize board for peripheral auto-init with default parameters,
+    you can use menuconfig to choose a target board*/
+    esp_err_t err = iot_board_init();
+    if (err != ESP_OK) {
+        goto error_loop;
+    }
+
+    /*get the i2c0 bus handle with a resource ID*/
+    bus_handle_t i2c0_bus_handle = (bus_handle_t)iot_board_get_handle(BOARD_I2C0_ID);
+    if (i2c0_bus_handle == NULL) {
+        goto error_loop;
+    }
+    
+    /*register handler with NULL specific typeID, thus all events posted to sensor_loop will be handled*/
+    ESP_ERROR_CHECK(iot_sensor_handler_register_with_type(NULL_ID, NULL_ID, sensor_event_handler, NULL));
+
+    /*create sensors based on sensor scan result*/
+    sensor_info_t* sensor_infos[10];
+    sensor_handle_t sensor_handle[10] = {NULL};
+    sensor_config_t sensor_config = {
+        .bus = i2c0_bus_handle, /*which bus sensors will connect to*/
+        .mode = MODE_POLLING, /*data acquire mode*/
+        .min_delay = SENSOR_PERIOD /*data acquire period*/
+    };
+    int num = iot_sensor_scan(i2c0_bus_handle, sensor_infos, 10); /*scan for valid sensors based on active i2c address*/
+    ESP_LOGI(TAG,"number of sensors:%d",num);
+    for (size_t i = 0; i < num && i<10; i++) {
+
+        if (ESP_OK != iot_sensor_create(sensor_infos[i]->sensor_id, &sensor_config, &sensor_handle[i])) { /*create a sensor with specific sensor_id and configurations*/
+            goto error_loop;
+        }
+
+        iot_sensor_start(sensor_handle[i]); /*start a sensor, data ready events will be posted once data acquired successfully*/
+        ESP_LOGI(TAG,"%s (%s) created",sensor_infos[i]->name, sensor_infos[i]->desc);
+    }
+
+    while (1) {
+        vTaskDelay(1000);
+    }
+
+error_loop:
+    ESP_LOGE(TAG, "ERRO");
+    while (1) {
+        vTaskDelay(1000);
+    }
+}
+
+
 
 void i2c_task(void *pvParameters)
 { 
-    int  lReceivedValue;
+    sensor_data_t  lReceivedValue;
     uint8_t * temp = NULL;
     portBASE_TYPE xStatus;
     for (;;) 
     {
          temp = (uint8_t *)malloc(sizeof(lReceivedValue));
-                    if(temp == NULL){
-                        ESP_LOGE(GATTS_TABLE_TAG, "%s malloc.1 failed\n", __func__);
-                        break;
-                    }
+         if(temp == NULL){
+            ESP_LOGE(GATTS_TABLE_TAG, "%s malloc.1 failed\n", __func__);
+            break;
+        }
         xStatus= xQueueReceive(sensor_data_queue, temp, (portTickType)portMAX_DELAY);
          if (xStatus==pdPASS)
          {
-
              esp_ble_gatts_send_indicate(sensor_gatts_if, sensor_conn_id, sensor_handle_table[SENSOR_IDX_SENSOR_DATA_NTY_VAL],sizeof(lReceivedValue), temp, false);
-             ESP_LOGE(TAG, "the sensor data is %x",*temp);
-             vTaskDelay(100 );
+             ESP_LOGE(TAG, "the sensor data is %x",*temp);             
+         }
+         else
+         {
+             ESP_LOGE(TAG, "the sensor data is empty");
          }
 
     }
@@ -72,15 +189,15 @@ void i2c_task(void *pvParameters)
 
 }
 
-static void i2c_task_init(void)
+static void sensor_task_init(void)
 {
-    sensor_data_queue = xQueueCreate(10, sizeof(int));
+    sensor_data_queue = xQueueCreate(SENSOR_BUFFER_SIZE, sizeof(sensor_data_t));
+    xTaskCreatePinnedToCore(i2c_task, "i2c_task", 2048, "task2",2, NULL,1);
+    sensor_acq_task();
       
-    xTaskCreate(ble_demo_task, "ble_demo_task", 2048, "task1",4, NULL);
-    xTaskCreate(i2c_task, "i2c_task", 2048, "task2",2, NULL);
+    //xTaskCreate(ble_demo_task, "ble_demo_task", 2048, "task1",4, NULL);
+    
 }
-
-
 
 static void gap_event_handler(esp_gap_ble_cb_event_t event, esp_ble_gap_cb_param_t *param)
 {
@@ -249,7 +366,7 @@ void app_main(void)
     esp_ble_gap_register_callback(gap_event_handler);
     esp_ble_gatts_app_register(ESP_SENSOR_APP_ID);
     
-    i2c_task_init();
+    sensor_task_init();
 
     return;
 }
