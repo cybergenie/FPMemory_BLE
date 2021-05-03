@@ -9,7 +9,10 @@
         "utility": "c",
         "ble_spp_server_demo.h": "c",
         "iot_server.h": "c",
-        "esp_gatts_api.h": "c"
+        "esp_gatts_api.h": "c",
+        "*.ipp": "c",
+        "cstring": "c",
+        "*.inc": "c"
     },
     "idf.flashType": "UART"
 }

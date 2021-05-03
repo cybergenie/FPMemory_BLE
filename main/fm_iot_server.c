@@ -43,10 +43,7 @@ static void sensor_event_handler(void *handler_args, esp_event_base_t base, int3
         ESP_LOGE(TAG, "sensor_id invalid, id=%d", sensor_data->sensor_id);
         return;
     }    
-        if( xQueueSend( sensor_data_queue, sensor_data, 0 ) != pdPASS )
-        {
-            ESP_LOGE(TAG, "the sensor data buffer is full!");
-        }
+        
     switch (id) {
         case SENSOR_STARTED:
         {                    
@@ -84,6 +81,24 @@ static void sensor_event_handler(void *handler_args, esp_event_base_t base, int3
                      sensor_data->timestamp,
                      sensor_data->gyro.x, sensor_data->gyro.y, sensor_data->gyro.z);
             break;
+        case SENSOR_RAW_DATA_READY:{
+            uint16_t utimestamp = (uint16_t)sensor_data->timestamp;
+            memcpy(sensor_data->sensor_raw_data+18,&utimestamp,sizeof(uint16_t));
+            ESP_LOGI(TAG,"0  1  2  3  4  5  6  7  8  9");                               
+            for(int i=0;i<20;i++)
+            {
+                printf("%02x ",sensor_data->sensor_raw_data[i]);
+            }
+            printf("\n");
+            ESP_LOGI(TAG,"timestamp:%d   %d", *(sensor_data->sensor_raw_data+18),utimestamp);    
+
+            if( xQueueSend( sensor_data_queue, sensor_data->sensor_raw_data, 0 ) != pdPASS )
+            {
+                ESP_LOGE(TAG, "the sensor data buffer is full!");
+            }
+
+            break;
+            }
         case SENSOR_LIGHT_DATA_READY:
             ESP_LOGI(TAG, "Timestamp = %llu - SENSOR_LIGHT_DATA_READY - "
                      "light=%.2f",
@@ -191,7 +206,7 @@ void i2c_task(void *pvParameters)
 
 static void sensor_task_init(void)
 {
-    sensor_data_queue = xQueueCreate(SENSOR_BUFFER_SIZE, sizeof(sensor_data_t));
+    sensor_data_queue = xQueueCreate(SENSOR_BUFFER_SIZE, sizeof(uint8_t)*20);
     xTaskCreatePinnedToCore(i2c_task, "i2c_task", 2048, "task2",2, NULL,1);
     sensor_acq_task();
       
